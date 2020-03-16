@@ -9,7 +9,7 @@ import requests
 from urllib import request, parse
 from bs4 import BeautifulSoup
 import tweepy
-from keys import *
+#from keys import *
 
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
@@ -102,20 +102,23 @@ def get_riesgopais():
                 riesgo_pais = item.string
         return riesgo_pais 
 
+dolar_colores =  [
+    ('Oficial', get_nacion),
+    ('Blue', get_dolarblue),
+    ('Contado con Liqui', get_dolarblue),
+    ('Bolsa', get_bolsa) ]
+
+
+
 bancos = [
-    ('Dolar Oficial', get_nacion),
-    ('Dolar Blue', get_dolarblue),
-    ('Dolar Contado con Liqui', get_dolarblue),
-    ('Dolar Bolsa', get_bolsa),
-    ('Dolar Banco Santander', get_santander),
-    ('Dolar Banco BBVA', get_bbva),
-    ('Dolar Banco Galicia', get_galicia),
-    ('Dolar Banco Patagonia', get_patagonia),
+    ('Santander', get_santander),
+    ('BBVA', get_bbva),
+    ('Galicia', get_galicia),
+    ('Patagonia', get_patagonia),
     ('Riesgo Pais',get_riesgopais)
 ]
 
-
-def detailed_list():
+def dolar_bancos():
     message = ''
     for banco, getter in bancos: 
         try:
@@ -127,4 +130,17 @@ def detailed_list():
         print("\nNo se pudo obtener ningún valor")
     return message
 
-api.update_status(detailed_list())
+def dolar_colores_list():
+    message = ''
+    for tipodolar, getter in dolar_colores: 
+        try:
+            value = getter()
+            message += '\n' + tipodolar + ': ' + value 
+        except:
+            print('Error obteniendo {nombre}'.format(nombre=tipodolar))
+    if (len(message) == 3):
+        print("\nNo se pudo obtener ningún valor")
+    return message
+
+api.update_status(dolar_colores_list())
+api.update_status(dolar_bancos())
