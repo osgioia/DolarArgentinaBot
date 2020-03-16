@@ -11,8 +11,8 @@ from bs4 import BeautifulSoup
 import tweepy
 #from keys import *
 
-auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
-auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+auth = tweepy.OAuthHandler(os.environ.get("CONSUMER_KEY"), os.environ.get("CONSUMER_SECRET"))
+auth.set_access_token(os.environ.get("ACCESS_TOKEN"), os.environ.get("ACCESS_TOKEN_SECRET"))
 
 # Create API object
 api = tweepy.API(auth)
