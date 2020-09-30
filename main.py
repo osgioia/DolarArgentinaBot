@@ -48,7 +48,7 @@ def get_bbva():
     with request.urlopen('https://hb.bbv.com.ar/fnet/mod/inversiones/NL-dolareuro.jsp') as rq:
         soup = BeautifulSoup(rq.read(), 'html.parser')
         dolar_compra = soup.find('td', string = 'Dolar').find_next_siblings()[0].string
-        dolar_venta = soup.find('td', string = 'Dolar').find_next_siblings()[0].string
+        dolar_venta = soup.find('td', string = 'Dolar').find_next_siblings()[1].string
         return 'Compra: $' + str(parse_dolar(dolar_compra)) + ' Venta: $' + str(parse_dolar(dolar_venta))
 
 def get_bolsa():
