@@ -54,13 +54,14 @@ def get_bbva():
 def get_bolsa():
     rq = requests.get('https://www.invertironline.com/mercado/cotizaciones?pais=Argentina&instrumento=Monedas&panel=Principales%20divisas&actualizar=true')
     soup = BeautifulSoup(rq.text, 'html.parser')
-    match = re.compile('\Dólar Bolsa')
     tabla = soup.findAll('table')[0].findAll('tr')
+    match = re.compile('AL30C')
+
     for item in tabla:
         data = item.find_all('td')
         if (match.search(data[0].text)) :
-            dolar_compra = data[1].text
-            dolar_venta = data[2].text
+          dolar_compra = data[1].text
+          dolar_venta = data[2].text
     return 'Compra: $' + str(parse_dolar(dolar_compra)) + ' Venta: $' + str(parse_dolar(dolar_venta))
 
 def get_galicia():
@@ -106,7 +107,7 @@ dolar_colores =  [
     ('Oficial', get_nacion),
     ('Blue', get_dolarblue),
     ('Contado con Liqui', get_dolarblue),
-    ('Bolsa', get_bolsa) ]
+    ('Dólar CCL', get_bolsa) ]
 
 
 
